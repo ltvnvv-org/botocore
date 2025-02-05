@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      cloud_version:
+        description: Cloud version (xx.yy)
+        required: true
+        type: string
+      bump:
+        description: Type of release
+        required: true
+        type: choice
+        default: rc
+        options:
+        - release
+        - rc
+
+jobs:
+  call-workflow:
+    uses: ltvnvv-org/gha-workflow/.github/workflows/deps-release.yml@main
+    with:
+      cloud_version: ${{ github.event.inputs.cloud_version }}
+      bump: ${{ github.event.inputs.bump }}
+    secrets: inherit
